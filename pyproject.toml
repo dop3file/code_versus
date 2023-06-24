@@ -8,6 +8,7 @@ packages = [{include = "code_versus"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+pymongo = "^4.3.3"
 
 
 [build-system]

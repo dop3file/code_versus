@@ -1,0 +1,3 @@
+class TooLongTest(ValueError):
+    ...
+

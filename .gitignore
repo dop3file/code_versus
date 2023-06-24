@@ -8,6 +8,8 @@ __pycache__/
 
 .idea/
 
+_task.py
+
 # Distribution / packaging
 .Python
 build/
