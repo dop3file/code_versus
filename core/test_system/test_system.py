@@ -1,19 +1,11 @@
 import subprocess
 import time
 import threading
-from dataclasses import dataclass
-from typing import List, Optional
+from typing import List
 
 from utils import TooLongTest
-
-
-@dataclass
-class Test:
-    input_data: str
-    output_data: str
-    status: bool = False
-    report: Optional[str] = None
-    total_exec_time: int = 0
+from core.test_system.models import Test
+from core.test_system.test_storage import TestStorage
 
 
 class Task:
@@ -23,14 +15,14 @@ class Task:
         self.count_success_tests = 0
         self.count_failed_tests = 0
 
-    def run_test(self, test: Test):
-        command = ['python3', 'task.py']
+    def run_test(self, code: str, test: Test):
+        command = ["python3", "-c", code]
         process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, universal_newlines=True)
         try:
             time_before = time.time()
             stdout, stderr = process.communicate(input=test.input_data)
-            test.total_exec_time = time.time() - time_before
+            test.total_exec_time = (time.time() - time_before) / 1000
 
             if test.total_exec_time > self.max_exec_time:
                 raise TooLongTest
@@ -49,12 +41,9 @@ class Task:
             test.report = str(stderr.encode())
 
     def run_tests(self, code: str) -> None:
-        with open("_task.py", "w") as file:
-            file.write(code)
-
         threads = []
         for i in range(len(self.tests)):
-            thread = threading.Thread(target=self.run_test, args=(self.tests[i],))
+            thread = threading.Thread(target=self.run_test, args=(code, self.tests[i]))
             threads.append(thread)
             thread.start()
 
@@ -66,27 +55,16 @@ class Task:
 
 
 if __name__ == "__main__":
-    tests = [
-        Test(
-            input_data="1 1 2",
-            output_data="False"
-        ),
-        Test(
-            input_data="1 2 3",
-            output_data="True"
-        ),
-    ]
+    test_storage = TestStorage()
+    tests = test_storage.get_tests_from_task(task_id=1)
     task = Task(tests, 1)
     code_sample = """
-x = list(map(int, input().split(" ")))
-items = set()
-for el in x:
-    if el in items:
-        print(False)
-        break
-    items.add(el)
-else:
-    print(True)
+x = input().split(' ')
+result = ''
+
+for word in x[::-1]:
+    result += f'{word} '
+print(result[:-1])
     """
     before = time.time()
     task.run_tests(code_sample)
