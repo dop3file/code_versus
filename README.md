@@ -4,4 +4,4 @@
 
 Архитектура 
 
-![Arch](https://sun9-2.userapi.com/impg/ePmz7RvQ_nZU_nU_SBcXGHnjQKvL6lj7Wa-18w/nKffhbniwHE.jpg?size=2560x1041&quality=95&sign=e21a1400fb4dd07801b4a6e200d91e56&type=album)
+![Arch]( https://sun9-79.userapi.com/impg/Hs2CXkAwjwwFlqHXhvmyH6C1CTVEkndi-RtpCw/Ef43sFZsLEM.jpg?size=2560x1021&quality=95&sign=85ed255cd0caf2d2b7f0fe310c020a33&type=album )
