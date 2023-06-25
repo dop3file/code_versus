@@ -1,6 +1,6 @@
 # code_versus
 
-Желаемый стек: Python, Django/DRF, FastAPI, Postgres, Mongodb, Celery/RabbitMQ, Docker, Selenium, ChatGPT, Pytest, Poetry, Websockets, JWT
+Желаемый стек: Python, Django/DRF, FastAPI, Postgres, Mongodb, Celery/RabbitMQ, Docker, Selenium, ChatGPT, Pytest, Poetry, Websockets, JWT, Amazon SMTP, Oauth Services(Github OAuth, Google OAuth)
 
 Архитектура 
 
