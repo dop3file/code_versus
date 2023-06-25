@@ -1,6 +1,6 @@
 # code_versus
 
-Желаемый стек: Python, Django/DRF, FastAPI, Postgres, Mongo, Celery/RabbitMQ, Docker, Selenium, ChatGPT
+Желаемый стек: Python, Django/DRF, FastAPI, Postgres, Mongodb, Celery/RabbitMQ, Docker, Selenium, ChatGPT, Pytest, Poetry, 
 
 Архитектура 
 
