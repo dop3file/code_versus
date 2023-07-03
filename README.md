@@ -16,6 +16,7 @@
     ChatGPT
     Pytest
     Poetry
+    Alembic
     Websockets
     JWT
     Amazon SMTP
