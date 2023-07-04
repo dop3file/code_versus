@@ -1,6 +1,10 @@
 from django.db import models
 
 
+class TaskLevel(models.Model):
+    level = models.CharField(verbose_name="Уровень задачи(ex Easy, Medium, Hard)")
+
+
 class Task(models.Model):
     title = models.CharField(
         max_length=256,
@@ -9,10 +13,7 @@ class Task(models.Model):
     description = models.TextField(
         verbose_name="Описание задачи"
     )
-    level = models.CharField(
-        max_length=256,
-        verbose_name="Уровень задачи(ex Easy, Medium, Hard)"
-    )
+    level = models.ForeignKey(TaskLevel, on_delete=models.DO_NOTHING)
     time_complexity = models.IntegerField(
         verbose_name="Временной предел выполнения задачи"
     )
