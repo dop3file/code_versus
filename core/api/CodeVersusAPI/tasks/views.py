@@ -1,3 +1,5 @@
+from typing import Iterable
+
 from django.shortcuts import render
 from django.forms import model_to_dict
 
@@ -9,25 +11,57 @@ from .models import Task
 from .serializers import TaskSerializer
 
 
-class TaskAPIView(APIView):
-    def get(self, request):
-        tasks = Task.objects.all().values()
-        return Response({"tasks": TaskSerializer(tasks, many=True).data, "count": len(tasks)})
-
-    def post(self, request):
-        serializer = TaskSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        new_task = Task.objects.create(
-            title=request.data["title"],
-            description=request.data["description"],
-            level=request.data["level"],
-            time_complexity=request.data["time_complexity"],
-            space_complexity=request.data["space_complexity"],
-
-        )
-        return Response(model_to_dict(new_task))
+class TaskAPIList(generics.ListCreateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
 
 
-# class TaskAPIView(generics.ListAPIView):
-#     queryset = Task.objects.all()
-#     serializer_class = TaskSerializer
+class TaskAPIDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+# class TaskAPIView(APIView):
+#     def get(self, request, *args, **kwargs):
+#         pk = kwargs.get("pk", None)
+#         raw_tasks = None
+#         if pk is not None:
+#             task = Task.objects.get(pk=pk)
+#             tasks = TaskSerializer(task).data
+#         else:
+#             raw_tasks = Task.objects.all().values()
+#             tasks = TaskSerializer(raw_tasks, many=True).data
+#         return Response({"tasks": tasks, "count": len(raw_tasks) if raw_tasks else 1})
+#
+#     def post(self, request):
+#         serializer = TaskSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response(serializer.data)
+#
+#     def put(self, request, *args, **kwargs):
+#         pk = kwargs.get("pk", None)
+#         if not pk:
+#             return Response(status=404)
+#         try:
+#             instance = Task.objects.get(pk=pk)
+#         except:
+#             return Response(status=404)
+#
+#         serializer = TaskSerializer(data=request.data, instance=instance)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response(serializer.data)
+#
+#     def delete(self, request, *args, **kwargs):
+#         pk = kwargs.get("pk", None)
+#         if not pk:
+#             return Response(status=404)
+#         try:
+#             instance = Task.objects.get(pk=pk)
+#             instance_pk = instance.pk
+#         except:
+#             return Response(status=404)
+#
+#         instance.delete()
+#         return Response(f"delete task {instance_pk}", status=200)
+
