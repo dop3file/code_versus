@@ -5,20 +5,20 @@
 
 Желаемый стек: 
 
-    Python
-    Django/DRF
+    Python - done
+    Django/DRF - done
     FastAPI
-    Postgres
-    Mongodb
+    Postgres - done
+    Mongodb - done
     Celery/RabbitMQ
     Docker
     Selenium
     ChatGPT
     Pytest
-    Poetry
+    Poetry - done
     Alembic
     Websockets
-    JWT
+    JWT - done
     Amazon SMTP
     Oauth Services(Github OAuth, Google OAuth)
 
