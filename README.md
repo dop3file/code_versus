@@ -17,6 +17,7 @@
     Pytest
     Poetry - done
     Alembic
+    Dotenv - done
     Websockets
     JWT - done
     Amazon SMTP
