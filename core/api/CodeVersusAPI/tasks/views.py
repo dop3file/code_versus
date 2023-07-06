@@ -7,10 +7,13 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.pagination import PageNumberPagination
 
-
 from .models import Task
 from .serializers import TaskSerializer
 from .permissions import IsAdminOrReadOnly
+from .services import TaskService
+
+
+task_service = TaskService()
 
 
 class TaskPagination(PageNumberPagination):
@@ -27,8 +30,8 @@ class TaskViewset(viewsets.ModelViewSet):
 
     @action(methods=["post"], detail=True, permission_classes=(IsAuthenticated,))
     def solve(self, request, pk: Optional[int]):
-        if pk is None:
-            return Response(status=405)
+        print(request.user)
+        task_service.solve(pk)
         return Response({"result": f"Solve task {pk}"})
 
     @action(methods=["get"], detail=True, permission_classes=(IsAuthenticated,))

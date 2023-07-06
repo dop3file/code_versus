@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from users.models import CustomUser
 
 
 class TaskLevel(models.Model):
@@ -37,11 +37,32 @@ class Task(models.Model):
         return f"<Task {self.pk} {self.title}>"
 
 
+class TestGroup(models.Model):
+    status = models.BooleanField(default=False, verbose_name="Статус выполнения всех тестов")
+    time_create = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+
+
 class Test(models.Model):
-    status = models.BooleanField(null=False, blank=False, verbose_name="Статус(выполнен ли тест)")
+    status = models.BooleanField(
+        null=False,
+        blank=False,
+        verbose_name="Статус(выполнен ли тест)"
+    )
+    task_group = models.ForeignKey(TestGroup, on_delete=models.CASCADE, verbose_name="Группа тестов")
     test_service_id = models.UUIDField(verbose_name="Айди для микросервиса с тестами")
     details = models.CharField(default="success", verbose_name="Описание выполнения теста")
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Пользователь который выполнил тест")
+    time_complexity = models.IntegerField(
+        verbose_name="Временной предел выполнения задачи",
+        null=False,
+        blank=False
+    )
+    space_complexity = models.IntegerField(
+        verbose_name="Предел по памяти выполнения задачи",
+        null=False,
+        blank=False
+    )
+
 
 
