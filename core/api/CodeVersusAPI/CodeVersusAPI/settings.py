@@ -34,6 +34,7 @@ INSTALLED_APPS = [
 
     'tasks.apps.TasksConfig',
     'users.apps.UsersConfig',
+    'celery'
 ]
 
 MIDDLEWARE = [
@@ -173,3 +174,16 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
+
+INSTALLED_APPS += ['django_celery_results', 'django_celery_beat']
+BROKER_URL = 'redis://localhost:5672/0'
+CELERY_BROKER_URL = BROKER_URL
+# Имя очереди сообщений
+CELERY_RESULT_BACKEND = 'redis://localhost:5672/0'
+
+# Имя приложения Django, которое будет использоваться Celery
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

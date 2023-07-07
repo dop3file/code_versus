@@ -30,9 +30,8 @@ class TaskViewset(viewsets.ModelViewSet):
 
     @action(methods=["post"], detail=True, permission_classes=(IsAuthenticated,))
     def solve(self, request, pk: Optional[int]):
-        print(request.user)
-        task_service.solve(pk)
-        return Response({"result": f"Solve task {pk}"})
+        code = request.data.get("code")
+        return Response(task_service.solve(request.user, pk, code))
 
     @action(methods=["get"], detail=True, permission_classes=(IsAuthenticated,))
     def details(self, request, pk: Optional[int]):

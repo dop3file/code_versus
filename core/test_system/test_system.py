@@ -3,19 +3,19 @@ import time
 import threading
 from typing import List
 
+
 from utils import TooLongTest
-from core.test_system.models import Test
-from core.test_system.test_storage import TestStorage
+from test_storage import TestStorage
 
 
 class Task:
-    def __init__(self, tests: List[Test], max_exec_time: int) -> None:
+    def __init__(self, tests: list, max_exec_time: int) -> None:
         self.tests = tests
         self.max_exec_time = max_exec_time
         self.count_success_tests = 0
         self.count_failed_tests = 0
 
-    def run_test(self, code: str, test: Test):
+    def run_test(self, code: str, test):
         command = ["python3", "-c", code]
         process = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, universal_newlines=True)
@@ -55,7 +55,7 @@ class Task:
 
 
 if __name__ == "__main__":
-    test_storage = TestStorage()
+
     tests = test_storage.get_tests_from_task(task_id=1)
     task = Task(tests, 1)
     code_sample = """

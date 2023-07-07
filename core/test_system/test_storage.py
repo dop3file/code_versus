@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from pymongo import MongoClient
 
-from core.test_system.models import Test
+from models import Test
 
 
 class TestStorage:

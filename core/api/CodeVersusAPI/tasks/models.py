@@ -51,8 +51,7 @@ class Test(models.Model):
         verbose_name="Статус(выполнен ли тест)"
     )
     task_group = models.ForeignKey(TestGroup, on_delete=models.CASCADE, verbose_name="Группа тестов")
-    test_service_id = models.UUIDField(verbose_name="Айди для микросервиса с тестами")
-    details = models.CharField(default="success", verbose_name="Описание выполнения теста")
+    details = models.CharField(default="ok", verbose_name="Описание выполнения теста")
     time_complexity = models.IntegerField(
         verbose_name="Временной предел выполнения задачи",
         null=False,
