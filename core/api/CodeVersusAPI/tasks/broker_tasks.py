@@ -1,13 +1,13 @@
 import Pyro4
+
 from .models import TestGroup, Test, Task
 from users.models import CustomUser
-from django.core import serializers
-from .serializers import TestSerializer
-from rest_framework.renderers import JSONRenderer
+from .serializers import TestSerializer, TestGroupSerializer
+from CodeVersusAPI.settings import BROKER_URI
 
 
-uri = "PYRO:obj_f7c4de90ac794278852b121dc639093e@localhost:65316"
-task_executor = Pyro4.Proxy(uri)
+broker_uri = BROKER_URI
+task_executor = Pyro4.Proxy(broker_uri)
 
 
 def solve_task(user: CustomUser, task_id: int, code: str, time_complexity: int):
@@ -19,16 +19,18 @@ def solve_task(user: CustomUser, task_id: int, code: str, time_complexity: int):
         task=current_task
     )
     test_group.save()
-    tests = []
     for test in result[1:]:
         test = Test(
             status=test["status"],
-            task_group=test_group,
+            test_group=test_group,
             details=test["report"] if test["report"] else "ok",
             time_complexity=test["total_exec_time"],
             space_complexity=0
         )
         test.save()
-        tests.append(test)
-    serializer = TestSerializer(tests, many=True)
+    serializer = TestGroupSerializer(test_group)
     return serializer.data
+
+
+def add_test(test: dict):
+    task_executor.add_test(test)

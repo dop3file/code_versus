@@ -4,13 +4,14 @@ from typing import Optional
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.pagination import PageNumberPagination
 
 from .models import Task
-from .serializers import TaskSerializer
+from .serializers import TaskSerializer, TestInSerializer
 from .permissions import IsAdminOrReadOnly
 from .services import TaskService
+from .broker_tasks import add_test
 
 
 task_service = TaskService()
@@ -35,6 +36,11 @@ class TaskViewset(viewsets.ModelViewSet):
 
     @action(methods=["get"], detail=True, permission_classes=(IsAuthenticated,))
     def details(self, request, pk: Optional[int]):
-        if pk is None:
-            return Response(status=405)
-        return Response({"result": f"Details of test {pk}"})
+        return Response(task_service.get_details(request.user, pk))
+
+    @action(methods=["post"], detail=False, permission_classes=(IsAdminUser,))
+    def test(self, request):
+        test_serializer = TestInSerializer(data=request.data)
+        test_serializer.is_valid(raise_exception=True)
+        add_test(test_serializer.validated_data)
+        return Response("ok")

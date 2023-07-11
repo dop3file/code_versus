@@ -2,10 +2,15 @@ import subprocess
 import time
 import threading
 from typing import List
+import signal
 
 
 from utils import TooLongTest
 from test_storage import TestStorage
+
+
+def handler():
+    raise TooLongTest
 
 
 class Task:
@@ -21,24 +26,33 @@ class Task:
                                    stderr=subprocess.PIPE, universal_newlines=True)
         try:
             time_before = time.time()
-            stdout, stderr = process.communicate(input=test.input_data)
-            test.total_exec_time = (time.time() - time_before) / 1000
+            try:
+                stdout, stderr = process.communicate(input=test.input_data, timeout=self.max_exec_time)
+            except subprocess.TimeoutExpired:
+                test.total_exec_time = (time.time() - time_before)
+                raise TooLongTest
+            test.total_exec_time = (time.time() - time_before)
 
+            stdout, stderr = process.communicate()
             if test.total_exec_time > self.max_exec_time:
                 raise TooLongTest
+
             elif process.returncode == 0 and stdout.encode() == (test.output_data + "\n").encode():
                 print("Test Success")
                 test.status = True
+                test.report = str(stderr.encode()) if str(stderr.encode()) != b"" else str(stdout.encode())
                 self.count_success_tests += 1
             else:
                 print("Test Failed")
                 test.status = False
+                test.report = str(stderr.encode()) if str(stderr.encode()) != b"" else str(stdout.encode())
                 self.count_failed_tests += 1
         except TooLongTest:
             process.kill()
             stdout, stderr = process.communicate()
             test.status = False
-            test.report = str(stderr.encode())
+            test.report = str(stderr.encode()) if str(stderr.encode()) != b"" else str(stdout.encode())
+            self.count_failed_tests += 1
 
     def run_tests(self, code: str) -> None:
         threads = []
@@ -52,21 +66,3 @@ class Task:
 
     def get_avg_exec_time(self) -> float:
         return sum([test.total_exec_time for test in self.tests]) / len(self.tests)
-
-
-if __name__ == "__main__":
-
-    tests = test_storage.get_tests_from_task(task_id=1)
-    task = Task(tests, 1)
-    code_sample = """
-x = input().split(' ')
-result = ''
-
-for word in x[::-1]:
-    result += f'{word} '
-print(result[:-1])
-    """
-    before = time.time()
-    task.run_tests(code_sample)
-    print(time.time() - before)
-    print(task.get_avg_exec_time())

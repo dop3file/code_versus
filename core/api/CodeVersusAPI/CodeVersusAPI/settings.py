@@ -15,9 +15,9 @@ config = dotenv_values(find_dotenv())
 SECRET_KEY = config["SECRET_DJANGO"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config["DEBUG_MODE"]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -34,7 +34,6 @@ INSTALLED_APPS = [
 
     'tasks.apps.TasksConfig',
     'users.apps.UsersConfig',
-    'celery'
 ]
 
 MIDDLEWARE = [
@@ -70,11 +69,11 @@ WSGI_APPLICATION = 'CodeVersusAPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'versus',
-        'USER': 'postgres',
-        'PASSWORD': 'versus',
+        'NAME': config["DB_NAME"],
+        'USER': config["DB_USER"],
+        'PASSWORD': config["DB_PASSWORD"],
         'HOST': 'localhost',
-        'PORT': '32768',
+        'PORT': config["DB_PORT"],
     }
 }
 
@@ -136,7 +135,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
@@ -175,15 +174,4 @@ SIMPLE_JWT = {
     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 }
 
-INSTALLED_APPS += ['django_celery_results', 'django_celery_beat']
-BROKER_URL = 'redis://localhost:5672/0'
-CELERY_BROKER_URL = BROKER_URL
-# Имя очереди сообщений
-CELERY_RESULT_BACKEND = 'redis://localhost:5672/0'
-
-# Имя приложения Django, которое будет использоваться Celery
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = TIME_ZONE
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+BROKER_URI = config["BROKER_URI"]

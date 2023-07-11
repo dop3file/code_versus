@@ -50,14 +50,14 @@ class Test(models.Model):
         blank=False,
         verbose_name="Статус(выполнен ли тест)"
     )
-    task_group = models.ForeignKey(TestGroup, on_delete=models.CASCADE, verbose_name="Группа тестов")
+    test_group = models.ForeignKey(TestGroup, on_delete=models.CASCADE, verbose_name="Группа тестов")
     details = models.CharField(default="ok", verbose_name="Описание выполнения теста")
-    time_complexity = models.IntegerField(
+    time_complexity = models.FloatField(
         verbose_name="Временной предел выполнения задачи",
         null=False,
         blank=False
     )
-    space_complexity = models.IntegerField(
+    space_complexity = models.FloatField(
         verbose_name="Предел по памяти выполнения задачи",
         null=False,
         blank=False

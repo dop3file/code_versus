@@ -7,15 +7,19 @@ class CustomBaseException(Exception):
 
 
 class ServiceException(CustomBaseException):
-    ...
+    status_code = 500
+    message = "Service Error"
+
+
+class NotFoundException(CustomBaseException):
+    status_code = 404
+    message = "Not Found"
 
 
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
-
     if issubclass(type(exc), CustomBaseException):
-        data = {"error": "error"}
-        status_code = 400
-        response = Response(data, status=status_code)
+        data = {"details": exc.message}
+        response = Response(data, status=exc.status_code)
 
     return response
