@@ -1,16 +1,15 @@
 
 # code_versus
 
-**Code Versus** - *соревновательная платформа для решения алгоритмических задач в реальном времени*
+**Code Versus** - *соревновательная платформа для решения алгоритмических задач*
 
 Желаемый стек: 
 
     Python - done
     Django/DRF - done
-    FastAPI
     Postgres - done
     Mongodb - done
-    Celery/RabbitMQ
+    RPC - done
     Docker
     Selenium
     ChatGPT
@@ -20,8 +19,7 @@
     Dotenv - done
     Websockets
     JWT - done
-    Amazon SMTP
-    Oauth Services(Github OAuth, Google OAuth)
+    Github OAuth
 
 Архитектура 
 
