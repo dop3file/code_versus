@@ -7,9 +7,10 @@ from models import Test
 
 class TestStorage:
     def __init__(self):
-        self.client = MongoClient('localhost', 2717)
+        print(1)
+        self.client = MongoClient("mongodb://db:27017/")
         self.db = self.client["tests"]
-        self.collection = self.db['series']
+        self.collection = self.db["series"]
 
     def insert_test(self, test: Dict[str, str]) -> str:
         return self.collection.insert_one(test).inserted_id

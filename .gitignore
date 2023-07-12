@@ -9,6 +9,7 @@ __pycache__/
 .idea/
 
 _task.py
+data/
 
 # Distribution / packaging
 .Python

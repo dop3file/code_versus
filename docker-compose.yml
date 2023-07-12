@@ -1,0 +1,35 @@
+version: '3'
+services:
+  app:
+    build:
+      context: core/test_system/
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    depends_on:
+      - db
+      - postgres
+    environment:
+      - MONGO_URI=mongodb://db:27017/
+      - POSTGRES_URI=postgresql://postgres:password@postgres/mydb
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+  db:
+    image: mongo
+    volumes:
+      - ./data/db:/data/db
+    ports:
+      - "27017:27017"
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

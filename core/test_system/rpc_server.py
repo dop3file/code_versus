@@ -1,8 +1,15 @@
+import logging
+import sys
+
 import Pyro4
 
 from test_storage import TestStorage
 from test_system import Task
 from models import Test
+
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.debug('This will be logged in Docker Compose logs')
 
 
 test_storage = TestStorage()
@@ -23,8 +30,8 @@ class TaskExecutor:
         test_storage.insert_test(test)
 
 
-daemon = Pyro4.Daemon()
-task = TaskExecutor()
-with Pyro4.locateNS() as ns:
-    ns.register("task", daemon.register(task))
-daemon.requestLoop()
+logging.debug('This will be logged in Docker Compose logs')
+
+Pyro4.Daemon.serveSimple({
+    TaskExecutor: 'TaskExecutor',
+}, host="0.0.0.0", port=9090, ns=False, verbose=True)
