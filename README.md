@@ -1,4 +1,3 @@
-
 # code_versus
 
 **Code Versus** - *соревновательная платформа для решения алгоритмических задач*
@@ -23,7 +22,7 @@
 
 Архитектура 
 
-![Arch]( https://sun9-79.userapi.com/impg/Hs2CXkAwjwwFlqHXhvmyH6C1CTVEkndi-RtpCw/Ef43sFZsLEM.jpg?size=2560x1021&quality=95&sign=85ed255cd0caf2d2b7f0fe310c020a33&type=album )
+![Arch]( https://sun9-21.userapi.com/impg/WDVZ5y5upL70utvIG-LETdeO1rOVyUK6EYoUVg/PMivWRY-hLk.jpg?size=2560x1386&quality=96&sign=2652d33914068c12426f5eeceb3bbb42&type=album )
 
 Требования к функционалу [25.06.2023]
 
