@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import json
 from collections import namedtuple
+from typing import Optional
 
 from api import BaseAPIWorker
 from exceptions import Unauthorized
@@ -13,6 +14,8 @@ class User:
     email: str
     first_name: str
     last_name: str
+    rating: int
+    count_submit_task: int
 
 
 class AuthData:
@@ -44,7 +47,8 @@ class JWTAuth:
         self._refresh_token = None
         self.user = None
 
-    async def get_user(self, token: str):
+    async def get_user(self, token: Optional[str] = False):
+        token = token or self._access_token
         return await self.api.get("curr_user/", token=token)
 
     def quit(self):

@@ -114,8 +114,9 @@ class MainWindow(BaseWindow):
 
     @back_handler
     def get_profile(self):
-        ...
-
+        user = asyncio.run(self.jwt.get_user()).data
+        console.print(f"Никнейм - {user['username']}\nEmail - {user['email']}\nРейтинг - {user['rating']}\nКол-во выполненных задач - {user['count_submit_task']}")
+        blank_input = input("Ctrl+C чтобы выйти")
     def quit(self):
         self.jwt.quit()
         clear_screen()
@@ -123,4 +124,3 @@ class MainWindow(BaseWindow):
     def exit(self):
         print("Bye!")
         exit(0)
-
