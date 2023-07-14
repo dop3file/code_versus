@@ -1,4 +1,3 @@
-![image](https://github.com/dop3file/code_versus/assets/49581209/393c4cd3-ec0f-4af0-95f9-d5321e1edc23)
 # code_versus
 
 **Code Versus** - *соревновательная платформа для решения алгоритмических задач*
