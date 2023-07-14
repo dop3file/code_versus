@@ -19,7 +19,7 @@ class TaskService:
 
     def get_details(self, user: CustomUser, test_group_id: int):
         try:
-            test_group = TestGroup.objects.get(id=test_group_id)
+            test_group = TestGroup.objects.get(pk=test_group_id, user=user)
         except TestGroup.DoesNotExist:
             raise NotFoundException
         tests = Test.objects.filter(test_group=test_group)

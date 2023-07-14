@@ -19,6 +19,10 @@ redis = "^4.6.0"
 django-celery-beat = "^2.5.0"
 django-celery-results = "^2.5.1"
 pyro4 = "^4.82"
+colorama = "^0.4.6"
+rich = "^13.4.2"
+getpass4 = "^0.0.14.1"
+aiohttp = "^3.8.4"
 
 
 [build-system]
