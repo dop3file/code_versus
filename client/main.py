@@ -1,8 +1,8 @@
-from jwt import JWTAuth
+from jwt import JWTApi
 from windows import AuthWindow, MainWindow
 
 
-jwt = JWTAuth()
+jwt = JWTApi()
 
 
 if __name__ == "__main__":

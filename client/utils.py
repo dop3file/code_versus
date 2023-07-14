@@ -12,3 +12,9 @@ def back_handler(func):
         except KeyboardInterrupt:
             return obj.back()
     return wrapper
+
+
+def get_text_from_file(path: str) -> str:
+    with open(path) as file:
+        result = "\n".join(file.readlines())
+    return result

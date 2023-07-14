@@ -8,5 +8,10 @@ custom_theme = Theme({
     "warning": "bold yellow",
     "error": "bold red",
     "success": "bold green",
+    "easy": "bold green",
+    "medium": "bold yellow",
+    "hard": "bold red",
+    "True": "bold green",
+    "False": "bold red"
 })
 console = Console(theme=custom_theme)
