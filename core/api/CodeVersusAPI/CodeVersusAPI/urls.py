@@ -5,11 +5,13 @@ from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 from tasks.views import TaskViewset
-from users.views import RegisterView, UserView, GetCurrentUserView
+from users.views import CustomUserViewSet
 
 
 task_router = routers.DefaultRouter()
 task_router.register(r"tasks", TaskViewset)
+user_router = routers.SimpleRouter()
+user_router.register(r"users", CustomUserViewSet, basename="user")
 
 
 urlpatterns = [
@@ -19,7 +21,5 @@ urlpatterns = [
     path("api/v1/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/v1/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/v1/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
-    path("api/v1/register/", RegisterView.as_view(), name="register"),
-    path("api/v1/user/", UserView.as_view(), name="user"),
-    path("api/v1/curr_user/", GetCurrentUserView.as_view(), name="get_current_user")
+    path("api/v1/", include(user_router.urls))
 ]
