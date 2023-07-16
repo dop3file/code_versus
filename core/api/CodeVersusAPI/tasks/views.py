@@ -9,7 +9,7 @@ from rest_framework.pagination import PageNumberPagination
 
 from .models import Task
 from .serializers import TaskSerializer, TestInSerializer
-from .permissions import IsAdminOrReadOnly
+from CodeVersusAPI.permissions import IsAdminOrReadOnly, IsAuthCustom
 from .services import TaskService
 from .broker_tasks import add_test
 
@@ -29,12 +29,12 @@ class TaskViewset(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     pagination_class = TaskPagination
 
-    @action(methods=["post"], detail=True, permission_classes=(IsAuthenticated,))
+    @action(methods=["post"], detail=True, permission_classes=(IsAuthCustom,))
     def solve(self, request, pk: Optional[int]):
         code = request.data.get("code")
         return Response(task_service.solve(request.user, pk, code))
 
-    @action(methods=["get"], detail=True, permission_classes=(IsAuthenticated,))
+    @action(methods=["get"], detail=True, permission_classes=(IsAuthCustom,))
     def details(self, request, pk: Optional[int]):
         return Response(task_service.get_details(request.user, pk))
 

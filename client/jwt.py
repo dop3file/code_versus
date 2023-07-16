@@ -60,7 +60,7 @@ class JWTApi:
 
     async def get_user(self, token: Optional[str] = False):
         token = token or self._access_token
-        return await self.api.get("curr_user/", token=token)
+        return await self.api.get("users/", token=token)
 
     def quit(self):
         self._access_token = None
@@ -74,7 +74,7 @@ class JWTApi:
         if data is not None and data.access is not None and await self.get_user(data.access):
             self._access_token = data.access
             self._refresh_token = data.refresh
-            self.user = User(**(await self.get_user(self._access_token)).data)
+            self.user = User(**(await self.get_user(self._access_token)).data["results"][0])
             return True
         else:
             return False
@@ -89,7 +89,7 @@ class JWTApi:
             raise Unauthorized
         self._access_token = response.data["access"]
         self._refresh_token = response.data["refresh"]
-        self.user = User(**(await self.get_user(self._access_token)).data)
+        self.user = User(**(await self.get_user(self._access_token)).data["results"][0])
         AuthData.save(response.data)
 
     async def get_tasks(self) -> list[Task]:

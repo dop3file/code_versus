@@ -16,6 +16,11 @@ class NotFoundException(CustomBaseException):
     message = "Not Found"
 
 
+class InvalidEmail(CustomBaseException):
+    status_code = 500
+    message = "Invalid email"
+
+
 def custom_exception_handler(exc, context):
     response = exception_handler(exc, context)
     if issubclass(type(exc), CustomBaseException):

@@ -13,6 +13,7 @@ from dependencies import *
 
 
 class BaseWindow:
+    @catch_exception
     def __init__(self, jwt: JWTApi):
         self.jwt = jwt
         self.output_window()
@@ -114,7 +115,7 @@ class MainWindow(BaseWindow):
 
     @back_handler
     def get_profile(self):
-        user = asyncio.run(self.jwt.get_user()).data
+        user = asyncio.run(self.jwt.get_user()).data["results"][0]
         console.print(f"Никнейм - {user['username']}\nEmail - {user['email']}\nРейтинг - {user['rating']}\nКол-во выполненных задач - {user['count_submit_task']}")
         blank_input = input("Ctrl+C чтобы выйти")
 
@@ -134,6 +135,7 @@ class TaskWindow(BaseWindow):
         super().__init__(jwt)
 
     @back_handler
+    @catch_exception
     def output_window(self):
         clear_screen()
         for idx, task in enumerate(self.tasks):
