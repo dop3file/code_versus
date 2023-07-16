@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'corsheaders',
 
     'tasks.apps.TasksConfig',
     'users.apps.UsersConfig',
@@ -42,7 +43,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'CodeVersusAPI.urls'
 
@@ -182,3 +185,31 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config["MAIL_ADDRESS"]
 EMAIL_HOST_PASSWORD = config["MAIL_PASSWORD"]
 RECIPIENT_ADDRESS = "merlinincorp@gmail.com"
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost',
+]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost'
+]
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
