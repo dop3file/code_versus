@@ -14,8 +14,6 @@ from .services import TaskService
 from .broker_tasks import add_test
 
 
-task_service = TaskService()
-
 
 class TaskPagination(PageNumberPagination):
     page_size = 5
@@ -32,11 +30,11 @@ class TaskViewset(viewsets.ModelViewSet):
     @action(methods=["post"], detail=True, permission_classes=(IsAuthCustom,))
     def solve(self, request, pk: Optional[int]):
         code = request.data.get("code")
-        return Response(task_service.solve(request.user, pk, code))
+        return Response(TaskService.solve(request.user, pk, code))
 
     @action(methods=["get"], detail=True, permission_classes=(IsAuthCustom,))
     def details(self, request, pk: Optional[int]):
-        return Response(task_service.get_details(request.user, pk))
+        return Response(TaskService.get_details(request.user, pk))
 
     @action(methods=["post"], detail=False, permission_classes=(IsAdminUser,))
     def test(self, request):

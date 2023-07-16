@@ -7,8 +7,7 @@ from rest_framework.decorators import action
 
 from .serializers import UserSerializer
 from .models import CustomUser, VerificationCode
-from .mailing import send_code_message
-from .services import verify_email
+from .services import RegistrationLogic
 from CodeVersusAPI.permissions import IsAuthCustom
 
 
@@ -33,10 +32,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             user=user
         )
         registration_code.save()
-        send_code_message(
-            title="Registration",
-            receiver=user.email,
-            code=registration_code.id
+        RegistrationLogic.send_verification_email(
+            verification_code=registration_code.id,
+            recipient_email=user.email
         )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -51,7 +49,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     @action(methods=["post"], detail=False, permission_classes=(permissions.AllowAny,))
     def verify_email(self, request):
         code = request.data.get("code")
-        verify_email(code)
+        RegistrationLogic.verify_email(code)
         return Response({"result": "success"}, status=200)
 
 

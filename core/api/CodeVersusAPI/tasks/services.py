@@ -10,13 +10,15 @@ from CodeVersusAPI.exceptions import NotFoundException
 
 
 class TaskService:
-    def solve(self, user: CustomUser, task_id: int, code: str):
+    @staticmethod
+    def solve(user: CustomUser, task_id: int, code: str):
         try:
             current_task = Task.objects.get(pk=task_id)
         except Task.DoesNotExist:
             raise NotFoundException
         return solve_task(user, task_id, code, current_task.time_complexity)
 
+    @staticmethod
     def get_details(self, user: CustomUser, test_group_id: int):
         try:
             test_group = TestGroup.objects.get(pk=test_group_id, user=user)

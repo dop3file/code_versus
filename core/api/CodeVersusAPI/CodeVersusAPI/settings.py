@@ -173,5 +173,12 @@ SIMPLE_JWT = {
 }
 
 BROKER_URI = config["BROKER_URI"]
-MAIL_ADDRESS = config["MAIL_ADDRESS"]
-MAIL_PASSWORD = config["MAIL_PASSWORD"]
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config["MAIL_ADDRESS"]
+EMAIL_HOST_PASSWORD = config["MAIL_PASSWORD"]
+RECIPIENT_ADDRESS = "merlinincorp@gmail.com"
