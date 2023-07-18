@@ -9,7 +9,6 @@ services:
       - "9090:9090"
     depends_on:
       - mongo
-      - postgres
     environment:
       - MONGO_URI=mongodb://db:27017/
       - POSTGRES_URI=postgresql://postgres:password@postgres/mydb
@@ -18,12 +17,16 @@ services:
       options:
         max-file: "5"
         max-size: "10m"
+    networks:
+      - mynetwork
   mongo:
     image: mongo
     volumes:
       - ./data/db:/data/db
     ports:
       - "27017:27017"
+    networks:
+      - mynetwork
   postgres:
     image: postgres
     environment:
@@ -56,8 +59,7 @@ services:
     depends_on:
       - postgres
       - redis
-    links:
-      - redis
+      - test_system
     networks:
       - mynetwork
   worker:
@@ -75,3 +77,4 @@ services:
 
 networks:
   mynetwork:
+  test_sys:

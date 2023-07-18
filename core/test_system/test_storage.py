@@ -8,7 +8,7 @@ from models import Test
 class TestStorage:
     def __init__(self):
         print(1)
-        self.client = MongoClient("mongodb://db:27017/")
+        self.client = MongoClient("mongodb://mongo:27017/")
         self.db = self.client["tests"]
         self.collection = self.db["series"]
 

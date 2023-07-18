@@ -26,7 +26,6 @@ class TaskExecutor:
         return result
 
     def add_test(self, test: dict) -> None:
-        print(test)
         test_storage.insert_test(test)
 
 
