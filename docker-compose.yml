@@ -1,13 +1,14 @@
 version: '3'
 services:
-  app:
+  test_system:
     build:
       context: core/test_system/
       dockerfile: Dockerfile
+    hostname: test_system
     ports:
       - "9090:9090"
     depends_on:
-      - db
+      - mongo
       - postgres
     environment:
       - MONGO_URI=mongodb://db:27017/
@@ -17,7 +18,7 @@ services:
       options:
         max-file: "5"
         max-size: "10m"
-  db:
+  mongo:
     image: mongo
     volumes:
       - ./data/db:/data/db
@@ -27,13 +28,50 @@ services:
     image: postgres
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: mydb
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: code_versus
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - mynetwork
   redis:
     image: redis:latest
+    hostname: redis
+    networks:
+      - mynetwork
     ports:
       - "6379:6379"
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: api
+    command: python /api/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./core/api/CodeVersusAPI:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - redis
+    networks:
+      - mynetwork
+  worker:
+    build:
+      context: .
+    hostname: worker
+    entrypoint: celery
+    command: -A CodeVersusAPI worker --loglevel=info
+    volumes:
+      - ./core/api/CodeVersusAPI:/code
+    networks:
+      - mynetwork
+    depends_on:
+      - redis
+
+networks:
+  mynetwork:

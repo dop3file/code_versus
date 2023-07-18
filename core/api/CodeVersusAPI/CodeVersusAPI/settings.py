@@ -75,7 +75,7 @@ DATABASES = {
         'NAME': config["DB_NAME"],
         'USER': config["DB_USER"],
         'PASSWORD': config["DB_PASSWORD"],
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': config["DB_PORT"],
     }
 }
@@ -218,12 +218,5 @@ CORS_ALLOW_HEADERS = [
 
 OPEN_AI_KEY = config["OPEN_AI_KEY"]
 
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
-CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
-
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379",
-    }
-}
+CELERY_BROKER_URL = "redis://redis:6379/0"
+CELERY_RESULT_BACKEND = "redis://redis:6379/0"

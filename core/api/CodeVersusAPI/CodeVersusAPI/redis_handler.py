@@ -1,14 +1,6 @@
 import redis
 
 
-r = redis.StrictRedis(
-    host='localhost',
-    port=6379,
-    charset="utf-8",
-    decode_responses=True
-)
-
-
 class OpenAIMessages:
     def __init__(self):
         self.list_name = "messages"
