@@ -8,10 +8,12 @@
     Django/DRF - done
     Postgres - done
     Mongodb - done
+    Celery - done
+    Redis - done
     RPC - done
-    Docker
+    Docker - done
     Selenium
-    ChatGPT
+    ChatGPT - done
     Pytest
     Poetry - done
     Alembic
