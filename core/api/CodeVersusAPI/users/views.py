@@ -8,7 +8,7 @@ from rest_framework.decorators import action
 from .serializers import UserSerializer
 from .models import CustomUser, VerificationCode
 from .services import RegistrationLogic
-from CodeVersusAPI.permissions import IsAuthCustom
+from .tasks import send_verification_email_task
 
 
 class CustomUserViewSet(viewsets.ModelViewSet):
@@ -32,7 +32,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             user=user
         )
         registration_code.save()
-        RegistrationLogic.send_verification_email(
+        send_verification_email_task.delay(
             verification_code=registration_code.id,
             recipient_email=user.email
         )

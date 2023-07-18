@@ -30,6 +30,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'corsheaders',
+    'celery',
 
     'tasks.apps.TasksConfig',
     'users.apps.UsersConfig',
@@ -216,6 +217,9 @@ CORS_ALLOW_HEADERS = [
 ]
 
 OPEN_AI_KEY = config["OPEN_AI_KEY"]
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_RESULT_BACKEND = "redis://127.0.0.1:6379/0"
 
 CACHES = {
     "default": {
