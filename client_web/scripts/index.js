@@ -23,6 +23,17 @@ function get_task_request(id) {
     .then(data => data);
 }
 
+function solve_task_request(code) {
+    return fetch(BASE_URL + `tasks/${id}/`, {
+        mode: 'cors',
+        method: "GET",
+        headers: {
+            'X-CSRFToken': csrftoken
+            },
+    }).then(resp => resp.json())
+    .then(data => data);
+}
+
 
 
 async function spawn_tasks() {
@@ -63,7 +74,12 @@ async function fill_info() {
     task = await get_task_request(task_id)
     title = document.getElementById("title")
     title.appendChild(document.createTextNode(task.title))
-    title = document.getElementById("description")
-    title.appendChild(document.createTextNode(task.title))
+    description = document.getElementById("description")
+    description.appendChild(document.createTextNode(task.title))
+    content = document.getElementById("content")
+    content.appendChild(document.createTextNode(task.description))
+}
+
+async function solve_task() {
 
 }

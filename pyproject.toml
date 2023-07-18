@@ -24,6 +24,7 @@ rich = "^13.4.2"
 getpass4 = "^0.0.14.1"
 aiohttp = "^3.8.4"
 django-cors-headers = "^4.2.0"
+openai = "^0.27.8"
 
 
 [build-system]

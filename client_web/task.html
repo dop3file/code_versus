@@ -11,6 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/python/python.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.0/dist/js.cookie.min.js"></script>
     <link rel="stylesheet" href="styles/task.css">
+    <script src="scripts/index.js"></script>
   </head>
   <body>
     <div class="container">
@@ -20,9 +21,7 @@
               <h1 id="title"></h1>
               <p id="description"></p>
             </div>
-            <div class="problem-content">
-              <!-- Здесь может быть текст задачи -->
-            </div>
+            <div class="problem-content" id="content"></div>
           </div>
           <div class="col-md-6">
             <div class="solution-header">
@@ -34,7 +33,7 @@
                   <label for="solution" class="form-label">Код решения:</label>
                   <textarea class="form-control" id="code-input" rows="10"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Отправить решение</button>
+                <button type="button" class="btn btn-primary" onclick="solve_task()">Отправить решение</button>
               </form>
             </div>
           </div>
@@ -46,7 +45,6 @@
             mode: "python",
         });
     </script>
-    <script src="scripts/index.js">
     </script>
     <script>
         fill_info()

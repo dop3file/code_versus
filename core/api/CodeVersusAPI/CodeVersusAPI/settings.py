@@ -33,6 +33,7 @@ INSTALLED_APPS = [
 
     'tasks.apps.TasksConfig',
     'users.apps.UsersConfig',
+    'questions.apps.QuestionsConfig'
 ]
 
 MIDDLEWARE = [
@@ -213,3 +214,12 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+
+OPEN_AI_KEY = config["OPEN_AI_KEY"]
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    }
+}
