@@ -46,22 +46,6 @@ services:
       - mynetwork
     ports:
       - "6379:6379"
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    hostname: api
-    command: python /api/manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./core/api/CodeVersusAPI:/code
-    ports:
-      - 8000:8000
-    depends_on:
-      - postgres
-      - redis
-      - test_system
-    networks:
-      - mynetwork
   worker:
     build:
       context: .
@@ -74,6 +58,22 @@ services:
       - mynetwork
     depends_on:
       - redis
+#  api:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    hostname: api
+#    command: python /api/manage.py runserver 0.0.0.0:8000
+#    volumes:
+#      - ./core/api/CodeVersusAPI:/code
+#    ports:
+#      - 8000:8000
+#    depends_on:
+#      - postgres
+#      - redis
+#      - test_system
+#    networks:
+#      - mynetwork
 
 networks:
   mynetwork:

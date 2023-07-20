@@ -41,6 +41,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         queryset = CustomUser.objects.filter(pk=user.pk)
+        print(1)
         return queryset
 
     def perform_create(self, serializer):

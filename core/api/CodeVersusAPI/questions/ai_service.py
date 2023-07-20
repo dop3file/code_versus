@@ -1,5 +1,4 @@
 from CodeVersusAPI.settings import OPEN_AI_KEY
-from CodeVersusAPI.redis_handler import OpenAIMessages
 
 import openai
 
@@ -7,11 +6,16 @@ import openai
 class OpenAIHandler:
     def __init__(self):
         openai.api_key = OPEN_AI_KEY
-        self.messages = OpenAIMessages()
+        self.messages = []
 
-    def get_answer(self, message: str):
-        self.messages.add_message(message)
-        chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=self.messages.get_all_messages())
+        self.promts = {
+            "question": "Сгенерируй мне {} вопросов и ответ для senior {} разработчика(сложный вопрос) и раздели вопрос и ответ"
+        }
+
+    def send_prompt(self, name_promt: str, *args):
+        message = self.promts[name_promt].format(*args)
+        self.messages.append({"role": "user", "content": message})
+        chat = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=self.messages)
         reply = chat.choices[0].message.content
         print(f"ChatGPT: {reply}")
-        self.messages.add_message(reply)
+        self.messages.append(reply)
