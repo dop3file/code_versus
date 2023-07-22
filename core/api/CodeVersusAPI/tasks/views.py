@@ -41,4 +41,4 @@ class TaskViewset(viewsets.ModelViewSet):
         test_serializer = TestInSerializer(data=request.data)
         test_serializer.is_valid(raise_exception=True)
         add_test(test_serializer.validated_data)
-        return Response("ok")
+        return Response({"status": "success"}, status=200)

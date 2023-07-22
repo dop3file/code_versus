@@ -1,24 +1,31 @@
 BASE_URL = 'http://127.0.0.1:8000/api/v1/'
-const csrftoken = Cookies.get('csrftoken');
 
 function get_tasks_request() {
     return fetch(BASE_URL + "tasks/", {
-        mode: 'cors',
         method: "GET",
         headers: {
-            'X-CSRFToken': csrftoken
-            },
+            'Content-Type': 'application/json', // Set the appropriate content type if sending JSON data
+        }
     }).then(resp => resp.json())
     .then(data => data);
 }
 
 function get_task_request(id) {
     return fetch(BASE_URL + `tasks/${id}/`, {
-        mode: 'cors',
         method: "GET",
         headers: {
-            'X-CSRFToken': csrftoken
-            },
+            'Content-Type': 'application/json', // Set the appropriate content type if sending JSON data
+        }
+    }).then(resp => resp.json())
+    .then(data => data);
+}
+
+function generate_question() {
+    return fetch(BASE_URL + `qa/generate/?language=Python`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json', // Set the appropriate content type if sending JSON data
+        }
     }).then(resp => resp.json())
     .then(data => data);
 }
@@ -29,11 +36,20 @@ function solve_task_request(code) {
         method: "GET",
         headers: {
             'X-CSRFToken': csrftoken
-            },
+        },
     }).then(resp => resp.json())
     .then(data => data);
 }
 
+function get_answer_request(question_id) {
+    return fetch(BASE_URL + `qa/${question_id}/answer/`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json', // Set the appropriate content type if sending JSON data
+        }
+    }).then(resp => resp.json())
+    .then(data => data);
+}
 
 
 async function spawn_tasks() {
@@ -80,6 +96,20 @@ async function fill_info() {
     content.appendChild(document.createTextNode(task.description))
 }
 
-async function solve_task() {
+async function get_question() {
+    question = await generate_question()
+    question_paragraph = document.getElementById("question")
+    question_paragraph.appendChild(document.createTextNode(question.title))
+    answer_button = document.getElementById("answer_button")
+    answer_button.style.visibility = "visible"
+    localStorage.setItem("question", question.id)
+    answer_paragraph = document.getElementById("answer")
+    answer_paragraph.innerHTML = ""
+}
 
+async function get_answer() {
+    question_id = localStorage.getItem("question")
+    answer_paragraph = document.getElementById("answer")
+    answer = await get_answer_request(question_id)
+    answer_paragraph.appendChild(document.createTextNode(answer.title))
 }
