@@ -2,24 +2,23 @@
 
 **Code Versus** - *соревновательная платформа для решения алгоритмических задач*
 
-Желаемый стек: 
+Стек проекта: 
 
-    Python - done
-    Django/DRF - done
-    Postgres - done
-    Mongodb - done
-    Celery - done
-    Redis - done
-    RPC - done
-    Docker - done
+    Python
+    Django/DRF
+    Postgres
+    Mongodb
+    Celery
+    Redis
+    RPC
+    Docker
     Selenium
-    ChatGPT - done
+    ChatGPT
     Pytest
-    Poetry - done
+    Poetry
     Alembic
-    Dotenv - done
-    Websockets
-    JWT - done
+    Dotenv
+    JWT
     Github OAuth
 
 Архитектура 
