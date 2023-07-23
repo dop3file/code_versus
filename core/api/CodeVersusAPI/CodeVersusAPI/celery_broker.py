@@ -15,8 +15,3 @@ app.config_from_object('django.conf:settings')
 app.conf.broker_url = CELERY_BROKER_URL
 # load tasks.py in django apps
 app.autodiscover_tasks()
-
-
-@app.task
-def add(x, y):
-    return x / y

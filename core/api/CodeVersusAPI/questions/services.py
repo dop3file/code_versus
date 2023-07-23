@@ -8,10 +8,10 @@ ai_handler = AIHandler()
 
 class QuestionService:
     @staticmethod
-    def generate_question(language: str, count: int):
-        prompt = ai_handler.send_prompt("question", count, language)
+    def generate_question(language: str):
+        prompt = ai_handler.send_prompt("question", language)
         new_question = Question(
-            title=prompt.split("Вопрос:")[1].split("\n")[0].strip().rstrip()
+            title=prompt.split("Вопрос:")[1].split("Ответ")[0].strip()
         )
         new_question.save()
         new_answer = Answer(

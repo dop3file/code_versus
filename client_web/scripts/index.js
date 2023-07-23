@@ -97,8 +97,10 @@ async function fill_info() {
 }
 
 async function get_question() {
-    question = await generate_question()
     question_paragraph = document.getElementById("question")
+    question_paragraph.appendChild(document.createTextNode(" Загрузка..."))
+    question = await generate_question()
+    question_paragraph.innerHTML = ""
     question_paragraph.appendChild(document.createTextNode(question.title))
     answer_button = document.getElementById("answer_button")
     answer_button.style.visibility = "visible"
@@ -110,6 +112,7 @@ async function get_question() {
 async function get_answer() {
     question_id = localStorage.getItem("question")
     answer_paragraph = document.getElementById("answer")
+    answer_paragraph.innerHTML = ""
     answer = await get_answer_request(question_id)
     answer_paragraph.appendChild(document.createTextNode(answer.title))
 }

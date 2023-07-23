@@ -34,7 +34,8 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         registration_code.save()
         send_verification_email_task.delay(
             verification_code=registration_code.id,
-            recipient_email=user.email
+            recipient_email=user.email,
+            message_title="Registration"
         )
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -51,7 +52,20 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     def verify_email(self, request):
         code = request.data.get("code")
         RegistrationLogic.verify_email(code)
-        return Response({"result": "success"}, status=200)
+        return Response({"details": "ok"}, status=200)
+
+    @action(methods=["post"], detail=False, permission_classes=(permissions.AllowAny,))
+    def reset_password(self, request):
+        email = request.data.get("email")
+        RegistrationLogic.reset_password(email)
+        return Response({"details": "ok"}, status=200)
+
+    @action(methods=["post"], detail=False, permission_classes=(permissions.AllowAny,))
+    def verify_reset_password(self, request):
+        code = request.data.get("code")
+        new_password = request.data.get("password")
+        RegistrationLogic.verify_reset_password(code, new_password)
+        return Response({"details": "ok"}, status=200)
 
 
 

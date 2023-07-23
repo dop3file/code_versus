@@ -54,6 +54,8 @@ services:
     command: -A CodeVersusAPI worker --loglevel=info
     volumes:
       - ./core/api/CodeVersusAPI:/code
+    environment:
+      - REDIS=redis://redis:6379/0
     networks:
       - mynetwork
     depends_on:

@@ -15,12 +15,10 @@ class QuestionViewset(ModelViewSet):
     def generate(self, request):
         language = request.data.get("language")
         count = request.data.get("count")
-        question = QuestionService.generate_question(language, count)
+        question = QuestionService.generate_question(language)
         return Response(question)
 
     @action(methods=["get"], detail=True, permission_classes=(AllowAny,))
     def answer(self, request, pk: int):
         question = QuestionService.get_answer(pk)
         return Response(question)
-
-

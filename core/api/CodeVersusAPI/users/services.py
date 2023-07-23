@@ -1,9 +1,6 @@
-from django.conf import settings
-from django.core.mail import EmailMessage
-from django.template.loader import render_to_string
-
-from .models import VerificationCode, CustomUser
+from .models import VerificationCode, CustomUser, VerificationCodeType
 from CodeVersusAPI.exceptions import InvalidEmail
+from .tasks import send_verification_email_task
 
 
 class RegistrationLogic:
@@ -17,17 +14,21 @@ class RegistrationLogic:
         user.save()
 
     @staticmethod
-    def send_verification_email(verification_code: str, recipient_email: str):
-        email_msg = EmailMessage(
-            subject="Registration | Code Versus",
-            from_email=settings.EMAIL_HOST_USER,
-            body=render_to_string("mail.html", {
-                "title": "Registartion | CodeVersus",
-                "code": verification_code,
-            }),
-            to=[recipient_email]
-        )
-        email_msg.content_subtype = "html"
-        email_msg.send()
+    def verify_reset_password(code: str, new_password: str):
+        print(code, new_password)
+        verification_code = VerificationCode.objects.get(id=code, code_type=VerificationCodeType.RESET.value)
+        current_user = verification_code.user
+        current_user.set_password(new_password)
+        current_user.save()
+
+    @staticmethod
+    def reset_password(recipient_email: str):
+        try:
+            current_user = CustomUser.objects.get(email=recipient_email)
+        except CustomUser.DoesNotExist:
+            raise InvalidEmail
+        verification_code = VerificationCode(user=current_user, code_type=VerificationCodeType.RESET.value)
+        verification_code.save()
+        send_verification_email_task.delay(verification_code.id, recipient_email, "Reset Password")
 
 

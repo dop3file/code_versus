@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from pathlib import Path
 
@@ -218,5 +219,10 @@ CORS_ALLOW_HEADERS = [
 
 OPEN_AI_KEY = config["OPEN_AI_KEY"]
 
-CELERY_BROKER_URL = "redis://localhost:6379/0"
-CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+
+CELERY_BROKER_URL = os.environ.get("REDIS")
+CELERY_RESULT_BACKEND = os.environ.get("REDIS")
+
+if CELERY_BROKER_URL is None:
+    CELERY_BROKER_URL = config["REDIS"]
+    CELERY_RESULT_BACKEND = config["REDIS"]
