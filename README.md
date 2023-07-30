@@ -19,7 +19,6 @@
     Alembic
     Dotenv
     JWT
-    Github OAuth
 
 # Архитектура 
 
