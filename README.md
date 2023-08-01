@@ -20,7 +20,7 @@
 
 # Архитектура 
 
-![Arch]( https://sun9-21.userapi.com/impg/WDVZ5y5upL70utvIG-LETdeO1rOVyUK6EYoUVg/PMivWRY-hLk.jpg?size=2560x1386&quality=96&sign=2652d33914068c12426f5eeceb3bbb42&type=album )
+![Arch]( static_arch.jpg )
 
 У нас есть микросервис тестовой системы которая прогоняет и хранит тесты в Mongodb
 
