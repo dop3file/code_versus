@@ -12,7 +12,6 @@
     Redis
     RPC
     Docker
-    Selenium
     ChatGPT
     Pytest
     Poetry
