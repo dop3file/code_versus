@@ -15,7 +15,6 @@
     ChatGPT
     Pytest
     Poetry
-    Alembic
     Dotenv
     JWT
 
