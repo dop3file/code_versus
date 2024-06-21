@@ -1,1 +1,0 @@
-JSON_FILE_PATH = "data.json"
